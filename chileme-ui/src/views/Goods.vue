@@ -76,7 +76,6 @@ export default {
                 {orderNo:'ODR00002',date:'2020-05-21 15:18',price:200,id:'odr02'},
                 {orderNo:'ODR00003',date:'2020-05-22 15:18',price:300,id:'odr03'},
             ] // 订单数据
-            
         }
     },
     components:{
