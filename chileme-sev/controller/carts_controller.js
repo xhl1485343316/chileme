@@ -98,7 +98,12 @@ const deleGoods = async ctx => {
 }
 //删除购物车中所有商品
 const deleteAll = async ctx => {
-    ctx.body='操作成功'
+    await Carts.deleteMany().then(res => {
+        console.log(res)
+    }).catch(err => {
+        console.log(err)
+    })
+    ctx.body = '操作成功'
 }
 
 module.exports = {

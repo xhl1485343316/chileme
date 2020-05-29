@@ -9,8 +9,7 @@
                 template(slot-scope="scope")
                     el-button(type="text",size="small",@click="deleteHandle(scope.row)") 删除
         el-divider
-        //- p {{`数量 ${cartsTable.length} 金额 ${total}`}}  
-        el-button(type='danger') 清空
+        el-button(type='danger',@click="deleteAllGoods") 清空
         el-button(type='success') 结算 
 </template>
 <script>
@@ -28,21 +27,19 @@ export default {
             console.log(row)
             console.log('-----子组件-----')
             this.$emit('dianji',row)
+        },
+        deleteAllGoods(){
+            this.Axios({
+                method:'GET',
+                url:'/api/carts/deleteAll'
+            }).then(res => {
+                console.log(res)
+                this.$emit('shanchu')
+            }).catch(err => {
+                console.log(err)
+            })
         }
-    
-    },
-    // mounted(){
-    //     this.cartsTable = this.cartsList
-    // },
-    // computed:{
-    //     total(){
-    //         let n =0;
-    //         for(const item of this.cartsTable){
-    //             n+= item.num*item.price
-    //         }
-    //         return
-    //     }
-    // }
+    }
 }
 </script>
 <style lang="scss" scoped>
