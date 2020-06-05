@@ -1,3 +1,4 @@
+  
 <template lang="pug">
     div.carts
         el-table(:data='cartsList',border)
@@ -5,27 +6,23 @@
             el-table-column(prop="num",label="数量")
             el-table-column(prop="price",label="金额")
             el-table-column(prop="methods",label="操作")
-                //- 1.删除 2.修改数量+ -
                 template(slot-scope="scope")
                     el-button(type="text",size="small",@click="deleteHandle(scope.row)") 删除
-        el-divider
+        el-divider  
         el-button(type='danger',@click="deleteAllGoods") 清空
         el-button(type='success',@click="addOrder") 结算 
 </template>
 <script>
 export default {
     data(){
-        return{
-            // cartsTable:[],
+        return{  
         }
     },
-    props: ['cartsList'],
+    props:['cartsList'],
     methods:{
-        // 2.子组件中定义一个函数，并绑定给一个按钮来进行触发，在该函数中接收子组件的参数
-        // 4.通过emit来调用绑定在子组件上的父组件方法，并将子组件获得的实参传递给父组件
         deleteHandle(row){
             console.log(row)
-            console.log('-----子组件-----')
+            console.log('----子组件---')
             this.$emit('dianji',row)
         },
         deleteAllGoods(){
@@ -41,20 +38,29 @@ export default {
         },
         // 创建订单
         addOrder(){
+            // 定义一个数组来存放id
+            let arr = []
+            // 遍历商品数据
+            for(let i=0;i<this.cartsList.length;i++){
+                // 将每个元素的goodsId存入新数组
+                arr.push(this.cartsList[i].goodsId)
+            }
+            console.log(arr)
             this.Axios({
                 method:'POST', //请求方式
                 url:'/api/order/addOrder', // 请求地址
-                data:{}, // 请求携带的参数，若该请求不需要携带参数，则可以忽略该属性            
+                data:{
+                    ids:arr
+                }, // 请求携带的参数，若该请求不需要携带参数，则可以忽略该属性            
             }).then(res => { //请求成功的回调函数  res请求返回的结果
                 console.log(res)
             }).catch(err => { // 请求失败的回调函数   err请求失败的返回结果
                 console.log(err)
             })
-        },
+        }
     }
 }
 </script>
-
 <style lang="scss" scoped>
 .el-table{
     width:90%;
